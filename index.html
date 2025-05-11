@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Foodie Roulette</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+  <!-- PWA manifest -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#000000">
+  <!-- Open Graph metadata -->
+  <meta property="og:title" content="Foodie Roulette">
+  <meta property="og:description" content="오늘 뭐먹지? 룰렛으로 골라봐!">
+  <meta property="og:image" content="opengraph.img.png">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://davidminq.github.io/foodie/">
+  <style>
+    body {
+      background: #f9f9f9;
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+    #wheel {
+      border-radius: 50%;
+      box-shadow: 0 0 10px rgba(0,0,0,0.2);
+      transition: transform 0.5s ease-out;
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+    }
+    #pointer {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 0;
+      height: 0;
+      border-left: 20px solid transparent;
+      border-right: 20px solid transparent;
+      border-top: 30px solid #000;
+      z-index: 2;
+    }
+    #wrapper {
+      position: relative;
+      width: 90vw;
+      max-width: 400px;
+      aspect-ratio: 1 / 1;
+      margin: 0 auto 20px;
+    }
+    #spin {
+      margin: 20px auto 0;
+      padding: 14px 28px;
+      font-size: 18px;
+      background: #000;
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      display: block;
+      width: 70vw;
+      max-width: 300px;
+    }
+    #add-button {
+      height: 40px;
+      padding: 0 20px;
+      font-size: 16px;
+      background: #000;
+      color: #fff;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    #add-button:hover {
+      background: #333;
+    }
+    #controls {
+      margin: 0 0 20px;
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      padding: 0 10px;
+      flex-wrap: wrap;
+    }
+    #menu-input {
+      padding: 8px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      width: 70vw;
+      max-width: 220px;
+      height: 40px;
+      padding: 0 15px;
+      border: none;
+      border-radius: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    #menu-input::placeholder {
+      color: #999;
+    }
+    #popup {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.5);
+      background: rgba(0, 0, 0, 0.8);
+      color: #fff;
+      padding: 20px 30px;
+      border-radius: 10px;
+      font-size: 24px;
+      text-align: center;
+      pointer-events: none;
+      opacity: 0;
+      z-index: 3;
+    }
+    #reset {
+      margin: 20px auto 0;
+      padding: 14px 28px;
+      font-size: 18px;
+      background: #888;
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      display: block;
+      width: 70vw;
+      max-width: 300px;
+    }
+    #reset:hover {
+      background: #666;
+    }
+    @media (max-width: 480px) {
+      #controls {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      #add-button, #spin {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="controls">
+    <input id="menu-input" type="text" placeholder="음식 추가" />
+    <button id="add-button">Add</button>
+  </div>
+  <div id="wrapper">
+    <div id="pointer"></div>
+    <canvas id="wheel" width="400" height="400"></canvas>
+  </div>
+  <button id="spin">Spin!</button>
+  <button id="reset">Reset</button>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script>
+    const defaultMenus = ["Japanese", "Chicken", "Hamburger", "Korean", "Greek", "Salad", "Pizza", "Chinese"];
+    const STORAGE_VERSION = 2;
+    const savedVersion = Number(localStorage.getItem("menusVersion"));
+    let menus;
+    if (savedVersion !== STORAGE_VERSION) {
+      menus = defaultMenus.slice();
+      localStorage.setItem("menus", JSON.stringify(menus));
+      localStorage.setItem("menusVersion", String(STORAGE_VERSION));
+    } else {
+      menus = JSON.parse(localStorage.getItem("menus")) || defaultMenus.slice();
+    }
+    const colors = [
+      '#6e7b8b', // Japanese: bluish gray
+      '#6a1b9a', // Chiecken: purple
+      '#e53935', // Hamburger: red
+      '#fb8c00', // Korean: orange
+      '#ffa000', // Greek: amber
+      '#fdd835', // Salad: yellow
+      '#aed581', // Pizza: light green
+      '#4db6ac'  // Chinese: teal
+    ];
+    function saveMenus() {
+      localStorage.setItem("menus", JSON.stringify(menus));
+    }
+    const canvas = document.getElementById("wheel");
+    const ctx = canvas.getContext("2d");
+    const center = canvas.width / 2;
+
+    function drawWheel() {
+      const total = menus.length;
+      const slice = 2 * Math.PI / total;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      menus.forEach((menu, i) => {
+        const start = i * slice;
+        const end = start + slice;
+
+        // 색상
+        const color = colors[i] || `hsl(${i * (360 / total)}, 80%, 60%)`;
+        ctx.beginPath();
+        ctx.moveTo(center, center);
+        ctx.arc(center, center, center, start, end);
+        ctx.fillStyle = color;
+        ctx.fill();
+        ctx.closePath();
+
+        // 텍스트 (중앙 배치)
+        const textAngle = start + slice / 2;
+        const textRadius = center * 0.65;
+        const x = center + Math.cos(textAngle) * textRadius;
+        const y = center + Math.sin(textAngle) * textRadius;
+
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(textAngle + Math.PI / 2);
+        ctx.fillStyle = "#fff";
+        ctx.font = "16px Arial";
+        ctx.textAlign = "center";
+        ctx.fillText(menu, 0, 0);
+        ctx.restore();
+      });
+    }
+
+    drawWheel();
+
+    // 메뉴 추가 인터페이스
+    const input = document.getElementById("menu-input");
+    const addBtn = document.getElementById("add-button");
+    addBtn.addEventListener("click", () => {
+      const value = input.value.trim();
+      if (!value) return;
+      menus.push(value);
+      input.value = "";
+      drawWheel();
+      saveMenus();
+    });
+    // Allow Enter key to add menu item
+    input.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        addBtn.click();
+      }
+    });
+
+    let rotation = 0;
+
+    document.getElementById("spin").addEventListener("click", () => {
+      const randomIndex = Math.floor(Math.random() * menus.length);
+      const extraRotations = 5;
+      const sliceDeg = 360 / menus.length;
+      // Calculate stop offset and use relative rotation
+      const stopAngle = 360 - (randomIndex * sliceDeg) - sliceDeg / 2;
+      const rotateAmount = extraRotations * 360 + stopAngle;
+
+      gsap.to(canvas, {
+        rotation: `+=${rotateAmount}`,
+        duration: 5,
+        ease: "power4.out",
+        onUpdate: () => {
+          rotation = gsap.getProperty(canvas, "rotation");
+          canvas.style.transform = `rotate(${rotation}deg)`;
+        },
+        onComplete: () => {
+          const finalRotation = gsap.getProperty(canvas, "rotation") % 360;
+          const normalizedRotation = (360 - finalRotation + 90) % 360;
+          const index = Math.floor(normalizedRotation / (360 / menus.length));
+          // 화려한 폭죽 연출
+          for (let i = 0; i < 3; i++) {
+            confetti({
+              particleCount: 120,
+              startVelocity: 40,
+              spread: 360,
+              ticks: 80,
+              origin: { x: Math.random(), y: Math.random() * 0.3 + 0.3 }
+            });
+          }
+          setTimeout(() => {
+            confetti({
+              particleCount: 200,
+              startVelocity: 20,
+              spread: 120,
+              decay: 0.9,
+              scalar: 1.2,
+              origin: { x: 0.5, y: 0.6 }
+            });
+          }, 200);
+          // Show popup
+          const popupText = document.getElementById("popup-text");
+          const popup = document.getElementById("popup");
+          popupText.textContent = menus[index];
+          gsap.fromTo(popup, { autoAlpha: 0, scale: 0.5 }, { autoAlpha: 1, scale: 1, duration: 0.6, ease: "back.out(1.7)" });
+          // Hide after 3 seconds
+          setTimeout(() => {
+            gsap.to(popup, { autoAlpha: 0, scale: 0.5, duration: 0.4 });
+          }, 3000);
+        }
+      });
+    });
+
+    const resetBtn = document.getElementById("reset");
+    resetBtn.addEventListener("click", () => {
+      // Clear stored menus and version
+      localStorage.removeItem("menus");
+      localStorage.removeItem("menusVersion");
+      // Reset to defaults
+      menus = defaultMenus.slice();
+      localStorage.setItem("menus", JSON.stringify(menus));
+      localStorage.setItem("menusVersion", String(STORAGE_VERSION));
+      drawWheel();
+    });
+
+    // 클릭 시 해당 메뉴 제거
+    canvas.addEventListener("click", (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      const dx = x - center;
+      const dy = y - center;
+      let clickAngle = Math.atan2(dy, dx) * 180 / Math.PI;
+      clickAngle = (clickAngle + 360) % 360;
+      // 보정: 회전량(rotation)만큼만 보정
+      const adjusted = (clickAngle - rotation + 360) % 360;
+      const sliceDeg = 360 / menus.length;
+      const idx = Math.floor(adjusted / sliceDeg);
+      // 메뉴 제거
+      menus.splice(idx, 1);
+      colors.splice(idx, 1);
+      drawWheel();
+      saveMenus();
+    });
+  </script>
+  <div id="popup">오늘의 메뉴는 🍽 <span id="popup-text"></span>!</div>
+  <!-- Service Worker registration -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js')
+          .then(reg => console.log('ServiceWorker registered:', reg))
+          .catch(err => console.log('ServiceWorker registration failed:', err));
+      });
+    }
+  </script>
+</body>
+</html>
