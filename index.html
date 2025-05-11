@@ -110,25 +110,23 @@
       background: #333;
     }
     #controls {
-      margin: 0 0 20px;
+      width: 70vw;
+      max-width: 220px;
+      margin: 0 auto 20px;
       display: flex;
       gap: 10px;
       justify-content: center;
-      padding: 0 10px;
       flex-wrap: wrap;
     }
     #menu-input {
-      padding: 8px;
       font-size: 16px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      width: 70vw;
-      max-width: 220px;
       height: 40px;
       padding: 0 15px;
       border: none;
       border-radius: 20px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      flex: 1;
+      box-sizing: border-box;
     }
     #menu-input::placeholder {
       color: #999;
@@ -167,10 +165,13 @@
     }
     @media (max-width: 480px) {
       #controls {
+        width: 70vw;
+        max-width: 220px;
+        margin: 0 auto 20px;
         flex-direction: column;
         align-items: stretch;
       }
-      #add-button, #spin {
+      #add-button, #spin, #menu-input {
         width: 100%;
       }
     }
