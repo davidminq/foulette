@@ -75,11 +75,13 @@
       z-index: 2;
     }
     #wrapper {
-      position: relative;
+      position: absolute;
       width: 90vw;
       max-width: 400px;
       aspect-ratio: 1 / 1;
-      margin: 20px auto 40px;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
     }
     #spin {
       margin: 20px auto 0;
@@ -168,10 +170,6 @@
       background: #666;
     }
     @media (max-width: 480px) {
-      #wrapper {
-        /* Reduce bottom spacing to match the 10px gap of the Add button */
-        margin-bottom: 50px;
-      }
       #menu-input {
         width: 90vw;
         max-width: 400px;
