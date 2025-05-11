@@ -38,7 +38,7 @@ python3 -m http.server 8000
 ⸻
 
 ## 📁 주요 파일 구조
-
+```
 foodie/
 ├── index.html          # 메인 HTML 파일
 ├── manifest.json       # PWA 웹 앱 매니페스트
@@ -49,7 +49,7 @@ foodie/
 ├── opengraph/          # OG 이미지 폴더
 │   └── opengraph_img.png
 └── README.md           # '-'
-
+```
 ---
 
 ## 🛠️ 사용 기술
