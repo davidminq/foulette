@@ -40,15 +40,15 @@ python3 -m http.server 8000
 ## 📁 주요 파일 구조
 
 foodie/
-├─ index.html              # 메인 HTML 파일
-├─ manifest.json           # PWA 웹 앱 매니페스트
-├─ sw.js                   # 서비스 워커 스크립트
-├─ app.icon/               # 앱 아이콘 폴더
-│  ├─ app_icon1.png        # 192×192 마스커블 아이콘
-│  └─ app_icon2.png        # 512×512 마스커블 아이콘
-├─ opengraph/              # OG 이미지 폴더
-│  └─ opengraph_img.png
-└─ README.md               # 프로젝트 설명 (이 파일)
+├── index.html          # 메인 HTML 파일
+├── manifest.json       # PWA 웹 앱 매니페스트
+├── sw.js               # 서비스 워커 스크립트
+├── app.icon/           # 앱 아이콘 폴더
+│   ├── app_icon1.png   # 192×192 마스커블 아이콘
+│   └── app_icon2.png   # 512×512 마스커블 아이콘
+├── opengraph/          # OG 이미지 폴더
+│   └── opengraph_img.png
+└── README.md           # '-'
 
 ---
 
