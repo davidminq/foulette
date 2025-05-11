@@ -164,15 +164,32 @@
       background: #666;
     }
     @media (max-width: 480px) {
-      #controls {
-        width: 70vw;
-        max-width: 220px;
-        margin: 0 auto 20px;
-        flex-direction: column;
-        align-items: stretch;
+      #menu-input {
+        width: 90vw;
+        max-width: 400px;
+        height: 48px;
+        padding: 0 20px;
+        font-size: 16px;
+        margin: 20px auto 10px;
       }
-      #add-button, #spin, #menu-input {
-        width: 100%;
+      #add-button {
+        display: block;
+        width: auto;
+        padding: 0 25px;
+        height: 40px;
+        font-size: 16px;
+        margin: 0 auto 20px;
+        border-radius: 20px;
+      }
+      #spin, #reset {
+        display: block;
+        width: 90vw;
+        max-width: 400px;
+        padding: 0 20px;
+        height: 40px;
+        font-size: 16px;
+        margin: 10px auto;
+        border-radius: 20px;
       }
     }
   </style>
