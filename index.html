@@ -91,7 +91,9 @@
       border: none;
       border-radius: 20px;
       cursor: pointer;
-      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       width: 70vw;
       max-width: 220px;
     }
@@ -156,7 +158,9 @@
       border: none;
       border-radius: 20px;
       cursor: pointer;
-      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       width: 70vw;
       max-width: 220px;
     }
@@ -182,7 +186,9 @@
         border-radius: 20px;
       }
       #spin, #reset {
-        display: block;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         width: 69px;
         padding: 0 20px;
         height: 40px;
@@ -202,7 +208,7 @@
     <div id="pointer"></div>
     <canvas id="wheel" width="400" height="400"></canvas>
   </div>
-  <button id="spin">Spin!</button>
+  <button id="spin">Spin</button>
   <button id="reset">Reset</button>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
