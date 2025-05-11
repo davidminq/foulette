@@ -14,7 +14,7 @@ Foodie Roulette (Foulette)
 
 데모
 
-라이브 페이지: https://davidminq.github.io/foodie/
+라이브 페이지: https://davidminq.github.io/foulette/
 
 ⸻
 
@@ -23,7 +23,7 @@ Foodie Roulette (Foulette)
 
 	1.	레포지토리 클론
 
-git clone https://github.com/davidminq/foodie.git
+git clone https://github.com/davidminq/foulette.git
 cd foodie
 
 
@@ -89,4 +89,4 @@ Pull Request 및 Issue는 언제나 환영입니다. 포크 → 브랜치 생성
 
 License
 
-MIT © 2025 David Minkyu
+MIT © 2025 @davidminq
