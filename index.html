@@ -202,10 +202,24 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        position: relative;
+        overflow: hidden;
       }
       .btn span {
         margin-top: 0;
         line-height: 1;
+        position: relative;
+        z-index: 2;
+      }
+      .dot {
+        width: 20px;
+        height: 20px;
+      }
+      .dot:after {
+        left: calc(50% - 4px);
+        top: calc(50% - 4px);
+        height: 8px;
+        width: 8px;
       }
       /* Input field full width */
       #menu-input {
