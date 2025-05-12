@@ -171,8 +171,6 @@
 
     #reset {
       background: var(--reset-color);
-      width: 70vw;
-      max-width: 220px;
     }
 
     #reset:hover {
@@ -374,7 +372,8 @@
       let clickAngle = Math.atan2(dy, dx) * 180 / Math.PI;
       clickAngle = (clickAngle + 360) % 360;
       
-      const adjusted = (clickAngle - rotation + 360) % 360;
+      const normalizedRotation = rotation % 360;
+      const adjusted = (clickAngle - normalizedRotation + 360) % 360;
       const sliceDeg = 360 / menus.length;
       const idx = Math.floor(adjusted / sliceDeg);
       
