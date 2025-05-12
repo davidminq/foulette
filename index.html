@@ -196,17 +196,30 @@
         width: 90vw;
         max-width: 400px;
         height: 35px;
+        line-height: 35px;
         font-size: 1.1em;
         margin: 10px auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        overflow: hidden;
       }
       .btn span {
+        margin-top: 0;
         line-height: 1;
+        position: relative;
+        z-index: 2;
       }
       .dot {
-        display: none !important;
+        width: 20px;
+        height: 20px;
       }
-      .btn:hover {
-        background: #333333;
+      .dot:after {
+        left: calc(50% - 4px);
+        top: calc(50% - 4px);
+        height: 8px;
+        width: 8px;
       }
       /* Input field full width */
       #menu-input {
@@ -289,9 +302,6 @@
       line-height: 2em;
       cursor: pointer;
       background: #333333;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
     .btn:hover {
       background: #555555;
