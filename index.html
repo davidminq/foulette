@@ -171,6 +171,8 @@
 
     #reset {
       background: var(--reset-color);
+      width: 70vw;
+      max-width: 220px;
     }
 
     #reset:hover {
@@ -408,6 +410,13 @@
     });
 
     canvas.addEventListener("click", handleWheelClick);
+    // Enable touch to remove slice on mobile
+    canvas.addEventListener("touchend", function(e) {
+      e.preventDefault();
+      const touch = e.changedTouches[0];
+      // Create a synthetic event object for handleWheelClick
+      handleWheelClick({ clientX: touch.clientX, clientY: touch.clientY });
+    }, { passive: false });
 
     // Service Worker registration
     if ('serviceWorker' in navigator) {
