@@ -191,35 +191,27 @@
       /* Override button width for mobile */
       :root {
         --btn-w: 90vw;
+        --dot-w: calc(var(--btn-w)*.2);
+        --tr-X: calc(var(--btn-w) - var(--dot-w));
       }
       .btn {
         width: 90vw;
         max-width: 400px;
         height: 35px;
-        line-height: 35px;
         font-size: 1.1em;
         margin: 10px auto;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: relative;
-        overflow: hidden;
       }
       .btn span {
-        margin-top: 0;
         line-height: 1;
-        position: relative;
-        z-index: 2;
       }
       .dot {
-        width: 20px;
-        height: 20px;
+        width: var(--dot-w);
       }
       .dot:after {
-        left: calc(50% - 4px);
-        top: calc(50% - 4px);
-        height: 8px;
-        width: 8px;
+        left: calc(50% - .4em);
+        top: -.4em;
+        height: .8em;
+        width: .8em;
       }
       /* Input field full width */
       #menu-input {
@@ -302,6 +294,9 @@
       line-height: 2em;
       cursor: pointer;
       background: #333333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .btn:hover {
       background: #555555;
