@@ -47,7 +47,7 @@
     :root {
       --primary-color: #000;
       --secondary-color: #fff;
-      --background-color: #f9f9f9;
+      --background-color: #FAFAFA;
       --button-hover: #333;
       --reset-color: #888;
       --reset-hover: #666;
@@ -130,7 +130,6 @@
     #controls {
       width: 70vw;
       max-width: 220px;
-      margin: 0 auto 20px;
       display: flex;
       gap: 10px;
       justify-content: center;
@@ -138,18 +137,22 @@
     }
 
     #menu-input {
+      display: block;
+      width: var(--btn-w);
       font-size: 16px;
-      height: 40px;
-      padding: 0 15px;
+      height: 45px;
+      padding: 0 40px;
       border: none;
       border-radius: 20px;
       box-shadow: 0 2px 5px var(--input-shadow);
-      flex: 1;
       box-sizing: border-box;
+      text-transform: uppercase;
+      color: var(--primary-color);
     }
 
     #menu-input::placeholder {
-      color: var(--placeholder-color);
+      color: var(--primary-color);
+      opacity: 0.6;
     }
 
     #popup {
@@ -162,6 +165,8 @@
       padding: 20px 30px;
       border-radius: 10px;
       font-size: 24px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
       text-align: center;
       pointer-events: none;
       opacity: 0;
@@ -170,53 +175,177 @@
     }
 
     #reset {
-      background: var(--reset-color);
+      margin-top: 0;
     }
 
-    #reset:hover {
-      background: var(--reset-hover);
+    #spin {
+      margin-bottom: 10px;
+    }
+
+
+    #spin {
+      margin-bottom: 10px;
     }
 
     @media (max-width: 480px) {
-      #wrapper {
-        margin-bottom: 50px;
+      /* Override button width for mobile */
+      :root {
+        --btn-w: 90vw;
       }
-
+      .btn {
+        width: 90vw;
+        max-width: 400px;
+        height: 35px;
+        line-height: 35px;
+        font-size: 1.1em;
+        margin: 10px auto;
+      }
+      /* Input field full width */
       #menu-input {
         width: 90vw;
         max-width: 400px;
-        height: 48px;
+        height: 40px;
+        margin: 20px auto;
         padding: 0 20px;
-        font-size: 16px;
-        margin: 20px auto 10px;
       }
-
-      .button {
-        width: auto;
-        padding: 0 20px;
-        height: 35px;
-        font-size: 16px;
-        margin: 0 auto 20px;
-        border-radius: 17.5px;
-      }
-
-      #spin, #reset {
-        width: auto;
+      /* Wheel container adjusts width */
+      #wrapper {
+        width: 90vw;
+        max-width: 400px;
+        margin: 20px auto;
       }
     }
-  </style>
+
+    /* SVG Button Styles */
+    .spot {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+    }
+    .svg-wrapper {
+      margin: 20px auto;
+      margin-top: 0;
+      position: relative;
+      width: 150px;
+      height: 40px;
+      display: inline-block;
+      border-radius: 3px;
+    }
+    #shape {
+      stroke-width: 6px;
+      fill: transparent;
+      stroke: #009FFD;
+      stroke-dasharray: 85 400;
+      stroke-dashoffset: -220;
+      transition: 1s all ease;
+    }
+    #text {
+      margin-top: -35px;
+      text-align: center;
+    }
+    #text a {
+      color: black;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1.1em;
+      text-transform: uppercase;
+    }
+    .svg-wrapper:hover #shape {
+      stroke-dasharray: 50 0;
+      stroke-width: 3px;
+      stroke-dashoffset: 0;
+      stroke: #06D6A0;
+    }
+
+    :root {
+      --bg: var(--background-color);
+      --primary: #78FFCD;
+      --solid: #fff;
+      --btn-w: 140px;
+      --dot-w: calc(var(--btn-w)*.2);
+      --tr-X: calc(var(--btn-w) - var(--dot-w));
+    }
+    /* Atom-style button animation */
+    .btn {
+      position: relative;
+      margin: 20px auto;
+      width: var(--btn-w);
+      color: var(--primary);
+      border: .15em solid var(--primary);
+      border-radius: 3em;
+      text-transform: uppercase;
+      text-align: center;
+      font-size: 1.2em;
+      line-height: 2em;
+      cursor: pointer;
+      background: #333333;
+    }
+    .btn:hover {
+      background: #555555;
+    }
+    .btn span {
+      position: relative;
+      z-index: 2;
+      letter-spacing: 0.1em;
+    }
+    .dot {
+      position: absolute;
+      top: 0;
+      width: var(--dot-w);
+      height: 100%;
+      border-radius: 100%;
+      transition: all 300ms ease;
+      display: none;
+    }
+    .btn:hover .dot,
+    .btn:focus .dot {
+      display: block;
+      animation: atom 2s infinite linear;
+    }
+    .dot:after {
+      content: '';
+      position: absolute;
+      left: calc(50% - .4em);
+      top: -.4em;
+      height: .8em;
+      width: .8em;
+      background: var(--primary);
+      border-radius: 1em;
+      border: .25em solid var(--solid);
+      box-shadow: 0 0 .7em var(--solid),
+                  0 0 2em var(--primary);
+    }
+    @keyframes atom {
+      0% {transform: translateX(0) rotate(0);}
+      30% {transform: translateX(var(--tr-X)) rotate(0);}
+      50% {transform: translateX(var(--tr-X)) rotate(180deg);}
+      80% {transform: translateX(0) rotate(180deg);}
+      100% {transform: translateX(0) rotate(360deg);}
+    }
+</style>
 </head>
 <body>
   <div id="controls">
     <input id="menu-input" type="text" placeholder="음식 추가" />
-    <button id="add-button" class="button">Add</button>
+    <div class="btn" id="add-button">
+      <span>Add</span>
+      <div class="dot"></div>
+    </div>
   </div>
   <div id="wrapper">
     <div id="pointer"></div>
     <canvas id="wheel" width="400" height="400"></canvas>
   </div>
-  <button id="spin" class="button">Spin</button>
-  <button id="reset" class="button">Reset</button>
+  <div class="btn" id="spin">
+    <span>Spin</span>
+    <div class="dot"></div>
+  </div>
+  <div class="btn" id="reset">
+    <span>Reset</span>
+    <div class="dot"></div>
+  </div>
   <div id="popup">Let's Eat 🍽 <span id="popup-text"></span>!</div>
 
   <script>
@@ -385,7 +514,8 @@
     }
 
     // Event Listeners
-    addBtn.addEventListener("click", () => {
+    addBtn.addEventListener("click", (event) => {
+      event.preventDefault();
       const value = input.value.trim();
       if (!value) return;
       menus.push(value);
@@ -396,13 +526,18 @@
 
     input.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
+        e.preventDefault();
         addBtn.click();
       }
     });
 
-    spinBtn.addEventListener("click", spinWheel);
+    spinBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      spinWheel();
+    });
     
-    resetBtn.addEventListener("click", () => {
+    resetBtn.addEventListener("click", (e) => {
+      e.preventDefault();
       menus = DEFAULT_MENUS.slice();
       saveMenus();
       drawWheel();
