@@ -14,7 +14,7 @@ Foodie Roulette (Foulette)
 
 데모
 
-라이브 페이지: https://davidminq.github.io/foulette/
+라이브 페이지: https://davidminq.github.io/foolette/
 
 ⸻
 
@@ -23,7 +23,7 @@ Foodie Roulette (Foulette)
 
 	1.	레포지토리 클론
 
-git clone https://github.com/davidminq/foulette.git
+git clone https://github.com/davidminq/foolette.git
 cd foodie
 
 
