@@ -1,4 +1,4 @@
-Foodie Roulette (Foulette)
+Rroulette for Foodies (Foulette)
 
 소개
 
