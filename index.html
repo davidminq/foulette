@@ -191,8 +191,6 @@
       /* Override button width for mobile */
       :root {
         --btn-w: 90vw;
-        --dot-w: 15px;
-        --tr-X: calc(var(--btn-w) - var(--dot-w));
       }
       .btn {
         width: 90vw;
@@ -200,23 +198,16 @@
         height: 35px;
         font-size: 1.1em;
         margin: 10px auto;
-        overflow: hidden;
       }
       .btn span {
         line-height: 1;
-        position: relative;
-        z-index: 2;
       }
-      .dot {
-        width: var(--dot-w);
-        height: var(--dot-w);
+      .btn:hover .dot,
+      .btn:focus .dot {
+        display: none;
       }
-      .dot:after {
-        left: calc(50% - 3px);
-        top: calc(50% - 3px);
-        height: 6px;
-        width: 6px;
-        border-width: 2px;
+      .btn:hover {
+        background: #333333;
       }
       /* Input field full width */
       #menu-input {
