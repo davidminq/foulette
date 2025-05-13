@@ -92,9 +92,9 @@
 
     #pointer {
       position: absolute;
-      top: 50%;
+      top: -10px;
       left: 50%;
-      transform: translate(-50%, -50%);
+      transform: translateX(-50%);
       width: 0;
       height: 0;
       border-left: 20px solid transparent;
@@ -140,6 +140,7 @@
       gap: 10px;
       justify-content: center;
       flex-wrap: wrap;
+      margin-bottom: 10px;
     }
 
     #menu-input {
@@ -242,7 +243,6 @@
     /* Atom-style button animation */
     .btn {
       position: relative;
-      margin: 20px auto;
       width: var(--btn-w);
       color: var(--primary);
       border: .15em solid var(--primary);
@@ -303,6 +303,10 @@
     <input id="menu-input" type="text" placeholder="음식 추가" />
     <div class="btn" id="add-button">
       <span>Add</span>
+      <div class="dot"></div>
+    </div>
+    <div class="btn" id="clear-all">
+      <span>Clear</span>
       <div class="dot"></div>
     </div>
   </div>
@@ -439,6 +443,7 @@
       const randomIndex = Math.floor(Math.random() * menus.length);
       const extraRotations = 5;
       const sliceDeg = 360 / menus.length;
+      // Change 270 for 12 o'clock alignment -> 360 for 12 o'clock pointer alignment
       const stopAngle = 360 - (randomIndex * sliceDeg) - sliceDeg / 2;
       const rotateAmount = extraRotations * 360 + stopAngle;
 
@@ -452,7 +457,8 @@
         },
         onComplete: () => {
           const finalRotation = gsap.getProperty(canvas, "rotation") % 360;
-          const normalizedRotation = (360 - finalRotation + 90) % 360;
+          // Add 270deg offset for 12 o'clock pointer alignment (triangle pointer at top)
+          const normalizedRotation = (360 - finalRotation + 270) % 360;
           const index = Math.floor(normalizedRotation / (360 / menus.length));
           
           showConfetti();
@@ -511,6 +517,13 @@
     resetBtn.addEventListener("click", (e) => {
       e.preventDefault();
       menus = DEFAULT_MENUS.slice();
+      saveMenus();
+      drawWheel();
+    });
+
+    document.getElementById("clear-all").addEventListener("click", (e) => {
+      e.preventDefault();
+      menus = [];
       saveMenus();
       drawWheel();
     });
