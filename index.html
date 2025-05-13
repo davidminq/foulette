@@ -125,8 +125,9 @@
       align-items: center;
       justify-content: center;
       width: 70vw;
-      max-width: 220px;
+      max-width: 100px;
       transition: background-color 0.3s ease;
+      letter-spacing: 0.1em; /* Added for increased spacing */
     }
 
     .button:hover {
@@ -240,94 +241,25 @@
       --dot-w: calc(var(--btn-w)*.2);
       --tr-X: calc(var(--btn-w) - var(--dot-w));
     }
-    /* Atom-style button animation */
-    .btn {
-      position: relative;
-      width: var(--btn-w);
-      color: var(--primary);
-      border: .15em solid var(--primary);
-      border-radius: 3em;
-      text-transform: uppercase;
-      text-align: center;
-      font-size: 1.2em;
-      line-height: 2em;
-      cursor: pointer;
-      background: #333333;
-    }
-    .btn:hover {
-      background: #555555;
-    }
-    .btn span {
-      position: relative;
-      z-index: 2;
-      letter-spacing: 0.1em;
-    }
-    .dot {
-      position: absolute;
-      top: 0;
-      width: var(--dot-w);
-      height: 100%;
-      border-radius: 100%;
-      transition: all 300ms ease;
-      display: none;
-    }
-    .btn:hover .dot,
-    .btn:focus .dot {
-      display: block;
-      animation: atom 2s infinite linear;
-    }
-    .dot:after {
-      content: '';
-      position: absolute;
-      left: calc(50% - .4em);
-      top: -.4em;
-      height: .8em;
-      width: .8em;
-      background: var(--primary);
-      border-radius: 1em;
-      border: .25em solid var(--solid);
-      box-shadow: 0 0 .7em var(--solid),
-                  0 0 2em var(--primary);
-    }
-    @keyframes atom {
-      0% {transform: translateX(0) rotate(0);}
-      30% {transform: translateX(var(--tr-X)) rotate(0);}
-      50% {transform: translateX(var(--tr-X)) rotate(180deg);}
-      80% {transform: translateX(0) rotate(180deg);}
-      100% {transform: translateX(0) rotate(360deg);}
-    }
 </style>
 </head>
 <body>
   <div id="controls">
-    <input id="menu-input" type="text" placeholder="음식 추가" />
-    <div class="btn" id="add-button">
-      <span>Add</span>
-      <div class="dot"></div>
-    </div>
-    <div class="btn" id="clear-all">
-      <span>Clear</span>
-      <div class="dot"></div>
-    </div>
+    <input id="menu-input" type="text" placeholder="내용 추가" />
+    <button class="button" id="clear-all">Clear</button>
   </div>
   <div id="wrapper">
     <div id="pointer"></div>
     <canvas id="wheel" width="400" height="400"></canvas>
   </div>
-  <div class="btn" id="spin">
-    <span>Spin</span>
-    <div class="dot"></div>
-  </div>
-  <div class="btn" id="reset">
-    <span>Reset</span>
-    <div class="dot"></div>
-  </div>
+  <button class="button" id="spin">Spin</button>
+  <button class="button" id="reset">Reset</button>
   <div id="popup">Let's Eat 🍽 <span id="popup-text"></span>!</div>
 
   <script>
     // Constants
-    const STORAGE_VERSION = 2;
-    const DEFAULT_MENUS = ["Japanese", "Italian", "Hamburger", "Korean", "Greek", "Salad", "Pizza", "Chinese"];
+    const STORAGE_VERSION = 3;
+    const DEFAULT_MENUS = ["🥩", "🥪", "🥦", "🍕", "🥗", "🍗", "🍜", "🥕"];
     const COLORS = [
       '#6e7b8b', '#6a1b9a', '#e53935', '#fb8c00',
       '#ffa000', '#fdd835', '#aed581', '#4db6ac'
@@ -338,7 +270,7 @@
     const ctx = canvas.getContext("2d");
     const center = canvas.width / 2;
     const input = document.getElementById("menu-input");
-    const addBtn = document.getElementById("add-button");
+    // const addBtn = document.getElementById("add-button");
     const spinBtn = document.getElementById("spin");
     const resetBtn = document.getElementById("reset");
     const popup = document.getElementById("popup");
@@ -394,7 +326,7 @@
         ctx.translate(x, y);
         ctx.rotate(textAngle + Math.PI / 2);
         ctx.fillStyle = "#fff";
-        ctx.font = "16px Arial";
+        ctx.font = "16px 'Poppins', sans-serif";
         ctx.textAlign = "center";
         ctx.fillText(menu, 0, 0);
         ctx.restore();
@@ -492,20 +424,17 @@
     }
 
     // Event Listeners
-    addBtn.addEventListener("click", (event) => {
-      event.preventDefault();
-      const value = input.value.trim();
-      if (!value) return;
-      menus.push(value);
-      input.value = "";
-      drawWheel();
-      saveMenus();
-    });
+    // Removed addBtn event listener
 
     input.addEventListener("keydown", (e) => {
       if (e.key === "Enter") {
         e.preventDefault();
-        addBtn.click();
+        const value = input.value.trim();
+        if (!value) return;
+        menus.push(value);
+        input.value = "";
+        drawWheel();
+        saveMenus();
       }
     });
 
