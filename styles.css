@@ -199,4 +199,4 @@ body {
   --btn-w: 140px;
   --dot-w: calc(var(--btn-w)*.2);
   --tr-X: calc(var(--btn-w) - var(--dot-w));
-} 
+}

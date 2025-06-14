@@ -221,4 +221,4 @@ if ('serviceWorker' in navigator) {
 
 // Initialize
 initializeMenus();
-drawWheel(); 
+drawWheel();
