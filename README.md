@@ -2,7 +2,7 @@ Roulette for Foodies
 
 소개
 
-“Foolette”는 음식 메뉴 선택의 어려움을 해결해주는 웹 기반 룰렛 애플리케이션입니다. 사용자가 원하는 음식 메뉴를 추가하고, 룰렛을 돌려 무작위로 메뉴를 선택할 수 있습니다.
+“irou”는 음식 메뉴 선택의 어려움을 해결해주는 웹 기반 룰렛 애플리케이션입니다. 사용자가 원하는 음식 메뉴를 추가하고, 룰렛을 돌려 무작위로 메뉴를 선택할 수 있습니다.
 
 - **간편한 메뉴 추가**: 입력 창에 음식 이름을 입력하고 Enter 또는 추가 버튼 클릭  
 - **랜덤 룰렛 회전**: GSAP 애니메이션으로 부드럽고 화려한 룰렛 효과  
@@ -14,26 +14,7 @@ Roulette for Foodies
 
 데모
 
-라이브 페이지: https://davidminq.github.io/foolette/
-
-⸻
-
-설치 & 실행
-
-
-	1.	레포지토리 클론
-
-git clone https://github.com/davidminq/foolette.git
-cd foodie
-
-
-	2.	로컬 서버 실행
-
-# Python SimpleHTTPServer 예시
-python3 -m http.server 8000
-
-
-	3.	브라우저에서 http://localhost:8000/index.html 열기
+라이브 페이지: https://davidminq.github.io/irou/
 
 ⸻
 
