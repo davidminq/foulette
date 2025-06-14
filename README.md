@@ -1,4 +1,4 @@
-Roulette for Foodies (Foolette)
+Roulette for Foodies
 
 소개
 
