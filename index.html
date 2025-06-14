@@ -52,15 +52,11 @@
   </div>
   <div id="wrapper">
     <div id="pointer"></div>
-    <svg id="wheel" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-      <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle" fill="#000">Add items</text>
-    </svg>
+    <canvas id="wheel" width="400" height="400"></canvas>
   </div>
-  <div id="controls">
-    <button class="button" id="spin">Spin</button>
-    <button class="button" id="reset">Reset</button>
-  </div>
-  <div id="popup"></div>
+  <button class="button" id="spin">Spin</button>
+  <button class="button" id="reset">Reset</button>
+  <div id="popup">Congrats! 🥳 🎉 You just won <span id="popup-text"></span>!</div>
   <script src="script.js"></script>
 </body>
 </html>
